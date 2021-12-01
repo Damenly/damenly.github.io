@@ -1,0 +1,6 @@
+baseURL = 'https://damenly.github.io/'
+languageCode = 'en-us'
+title = 'D'
+publishDir = "./public"
+
+theme = "solar"

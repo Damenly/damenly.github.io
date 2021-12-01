@@ -1,0 +1,39 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Update theme
+        run: git submodule update --init --recursive
+
+      - name: Setup hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+
+      - name: Clean public directory
+        run: rm -rf public
+
+      - name: Build
+        run: hugo --minify
+
+      - name: Create CNAME
+        run: cp -f ./CNAME ./public
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3.7.3
+        with:
+          personal_token: ${{ secrets.foo }}
+          external_repository: damenly/damenly.github.io
+          publish_dir: ./public
+          user_name: damenly
+          user_email: l@damenly.org
+          publish_branch: gh-pages
