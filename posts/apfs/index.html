@@ -1,38 +1,73 @@
-<!doctype html><html>
-<head>
+<!doctype html><html lang=en data-mode=light>
+<head prefix="og: http://ogp.me/ns#">
 <meta charset=utf-8>
-<meta name=viewport content="width=device-width">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<meta name=theme content="Color Your World -- gitlab.com/rmaguiar/hugo-theme-color-your-world">
 <title>apfs</title>
-<link rel=stylesheet href=http://damenly.github.io/css/colors-dark.min.04ff1d6d2078fa65747fb72cef57eee0015c1b56e56c24eed85082032b2182f4.css>
+<meta name=robots content="index follow">
+<link rel=canonical href=http://damenly.github.io/posts/apfs/>
+<meta property="og:site_name" content="D">
+<meta property="og:title" content="apfs">
+<meta property="og:url" content="http://damenly.github.io/posts/apfs/">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-06-22">
+<meta property="article:modified_time" content="2021-06-22">
+<meta property="og:updated_time" content="2021-06-22">
+<meta name=theme-color content="#222">
+<meta name=apple-mobile-web-app-capable content="yes">
+<meta name=apple-mobile-web-app-status-bar-style content="default">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebSite","@id":"http:\/\/damenly.github.io\/"},"headline":"apfs","description":"","url":"http:\/\/damenly.github.io\/posts\/apfs\/","inLanguage":"en","datePublished":"2021-06-22","dateModified":"2021-06-22","wordCount":"531","publisher":{"@type":"Person","name":""},"author":{"@type":"Person","name":""}}</script>
+<link rel=stylesheet href=http://damenly.github.io/css/main.min.bfaec3ddc00f7782895efb66387bdb4416a3cddbb38955597771de3b7307c0ef.css integrity="sha256-v67D3cAPd4KJXvtmOHvbRBajzduziVVZd3HeO3MHwO8=" crossorigin=anonymous>
+<noscript>
+<meta name=theme-color content="#1dbc91" media="(prefers-color-scheme: dark)">
+<meta name=theme-color content="#1f676b" media="(prefers-color-scheme: light)">
+<link rel=stylesheet href=http://damenly.github.io/css/noscript.min.9bacd85b6f1d42296c56d3b8457d0c13a4e7f415c4ca5fc8affb6ed6b39cad72.css integrity="sha256-m6zYW28dQilsVtO4RX0ME6Tn9BXEyl/Ir/tu1rOcrXI=" crossorigin=anonymous>
+</noscript>
+<link rel=preload href=/fonts/open-sans-v17-latin-700.woff2 as=font crossorigin=anonymous>
+<link rel=preload href=/fonts/open-sans-v17-latin-italic.woff2 as=font crossorigin=anonymous>
+<link rel=preload href=/fonts/open-sans-v17-latin-regular.woff2 as=font crossorigin=anonymous>
+<link rel=preload href=/fonts/oswald-v29-latin-700.woff2 as=font crossorigin=anonymous>
+<script src=http://damenly.github.io/js/main.min.dd78ee91e8ad16d9570adefe0fb4135123f73a1fe7c44b04771ad23909893d00.js integrity="sha256-3XjukeitFtlXCt7+D7QTUSP3Oh/nxEsEdxrSOQmJPQA=" crossorigin=anonymous></script>
 </head>
 <body>
-<header id=header>
-<h1><a href=http://damenly.github.io/>D</a></h1>
-<p></p>
-</header>
-<div id=page>
-<div id=sidebar>
-<nav>
-<ul class=nav>
-<li><a href=https://damenly.github.io/posts/about_me><span>About ME</span></a></li>
-<li><a href=https://damenly.github.io/posts/apfs><span>APFS</span></a></li>
-<li><a href=/index.html><span>index</span></a></li>
-<li><a href=https://blog.damenly.su/posts/wb2twitter><span>wb2twitter</span></a></li>
+<header>
+<a href=/>D</a>
+<nav aria-label="Main menu.">
+<ul>
+<li>
+<a class=btn href=https://damenly.github.io/posts/about_me>About ME</a>
+</li>
+<li>
+<a class=btn href=https://damenly.github.io/posts/apfs>APFS</a>
+</li>
+<li>
+<a class=btn href=/index.html>index</a>
+</li>
+<li>
+<a class=btn href=https://blog.damenly.su/posts/wb2twitter>wb2twitter</a>
+</li>
 </ul>
 </nav>
-</div>
-<div id=content>
-<article class=post>
-<h1><a href=http://damenly.github.io/posts/apfs/>apfs</a> </h1>
-<div class=post-content><h1 id=apfs-notes>APFS NOTES</h1>
+</header>
+<div class=filler>
+<main>
+<article>
+<header>
+<h1>apfs</h1>
+<p>
+Published on <time datetime=2021-06-22>2021-06-22</time>
+</p>
+</header>
+<h1 id=apfs-notes>APFS NOTES</h1>
 <p>This blog just records something when I port apfs(Apple file system) to Linux.
 Please forgive my english ;)</p>
-<h2 id=apfs-maximum-subvolume-limit>APFS maximum subvolume limit</h2>
+<h2 id=apfs-maximum-subvolume-limit><a class=anchor href=#apfs-maximum-subvolume-limit title="Anchor for: APFS maximum subvolume limit."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> APFS maximum subvolume limit</h2>
 <p>A complete APFS consists of one container super block (nx_superblcok) and multi
 subvolumes. Each subvolume has its own superblock, fs tree, backref tree.
 And Thanks to Apple&rsquo;s good design, the maximum subvolume numer of one APFS is
 100. It&rsquo;s defined in struct apfs_nx_superblock:</p>
-<pre tabindex=0><code>#define APFS_MAX_FILE_SYSTEMS 100
+<pre aria-label="Box containing code sample." tabindex=0><code>#define APFS_MAX_FILE_SYSTEMS 100
 
 struct apfs_nx_superblock {
         ...
@@ -47,9 +82,9 @@ Unlike btrfs which treats snapshots as subvolumes, apfs create snapshot related
 infomation inside subvolume. It means we can create snapshots of a subvolume
 as much as we want. However, the trade cost is only one snapshot/subvolume per
 apfs_vol_superblock being mounted meantime.</p>
-<h2 id=apfs-superblock-and-its-csum>APFS superblock and its csum</h2>
+<h2 id=apfs-superblock-and-its-csum><a class=anchor href=#apfs-superblock-and-its-csum title="Anchor for: APFS superblock and its csum."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> APFS superblock and its csum</h2>
 <p>Superblocks structures are:</p>
-<pre tabindex=0><code>#define APFS_SUPER_INFO_SIZE 4096
+<pre aria-label="Box containing code sample." tabindex=0><code>#define APFS_SUPER_INFO_SIZE 4096
 
 struct apfs_nx_superblock {
         struct apfs_obj_header o;
@@ -85,7 +120,7 @@ obj_header members. Btrfs has similar designs for tree nodes and file extents.
 Because apfs seems don&rsquo;t CoW its tree node, every object item has its csum field
 in obj header.</p>
 <p>Object header structure:</p>
-<pre tabindex=0><code>/* Header of all objects */
+<pre aria-label="Box containing code sample." tabindex=0><code>/* Header of all objects */
 struct apfs_obj_header {
         u8 csum[APFS_CSUM_SIZE];
         __le64 oid;
@@ -98,7 +133,7 @@ struct apfs_obj_header {
         __le32 subtype;
 };
 </code></pre><p>And APFS generates csum using fletcher64:</p>
-<pre tabindex=0><code>/*
+<pre aria-label="Box containing code sample." tabindex=0><code>/*
  * Note that this is not a generic implementation of fletcher64, as it assumes
  * a message length that doesn't overflow sum1 and sum2.  This constraint is ok
  * for apfs, though, since the block size is limited to 2^16.  For a more
@@ -126,7 +161,7 @@ static u64 apfs_fletcher64(const void *addr, size_t len)
 }
 </code></pre><p>@addr in APFS should be address of @apfs_obj_header and len should
 be (node_size - APFS_CSUMS_SIZE) or (APFS_SUPER_INFO_SIZE - APFS_CSUMS_SIZE).</p>
-<h2 id=apfs-cow>APFS COW</h2>
+<h2 id=apfs-cow><a class=anchor href=#apfs-cow title="Anchor for: APFS COW."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> APFS COW</h2>
 <p>Unlike btrfs, nowdays xfs has data COW ability but no metadata COW.</p>
 <div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
 <iframe src=https://www.youtube.com/embed/wG8FUvSGROw style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
@@ -136,22 +171,19 @@ metadata COW but data COW only. There are data&rsquo;s extent backrefs in every
 subvolume but no metadata&rsquo;s.
 And one more thing shocked me: apfs does metadata checksum indeed but no checksum
 of data at all????!!!! Mabye it&rsquo;s Apple&rsquo;s dignity in protecting user data :)</p>
-<h2 id=credits>Credits:</h2>
+<h2 id=credits><a class=anchor href=#credits title="Anchor for: Credits:."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> Credits:</h2>
 <ul>
 <li><a href=https://github.com/linux-apfs/linux-apfs-rw/>https://github.com/linux-apfs/linux-apfs-rw/</a></li>
 <li><a href=https://github.com/sgan81/apfs-fuse/>https://github.com/sgan81/apfs-fuse/</a></li>
 <li><a href=https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf>https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf</a></li>
 </ul>
-</div>
-<p class=meta>Posted on <span class=postdate>22. June 2021</span></p>
 </article>
+</main>
 </div>
-<footer id=footer>
-<p class=copyright>
-Powered by <a href=https://gohugo.io/>Hugo</a> and the
-<a href=https://github.com/bake/solar-theme-hugo>Solar</a>-theme.
-</p>
-</footer>
-</div>
+<footer>
+<section class=req-js>
+<button class=outline-dashed title="Change to light/dark mode."><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><use xlink:href="#adjust"/></svg></button><input class=outline-dashed type=color list=presets value=#1f676b title="Change accent color." aria-label="Change accent color."><datalist id=presets><option value=#1f676b><option value=#1dbc91></datalist>
+</section>
+</footer><svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true"><symbol viewBox="0 0 512 512" id="adjust"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></symbol><symbol viewBox="0 0 448 512" id="hashtag"><path d="M440.667 182.109l7.143-40c1.313-7.355-4.342-14.109-11.813-14.109h-74.81l14.623-81.891C377.123 38.754 371.468 32 363.997 32h-40.632a12 12 0 00-11.813 9.891L296.175 128H197.54l14.623-81.891C213.477 38.754 207.822 32 200.35 32h-40.632a12 12 0 00-11.813 9.891L132.528 128H53.432a12 12 0 00-11.813 9.891l-7.143 40C33.163 185.246 38.818 192 46.289 192h74.81L98.242 320H19.146a12 12 0 00-11.813 9.891l-7.143 40C-1.123 377.246 4.532 384 12.003 384h74.81L72.19 465.891C70.877 473.246 76.532 480 84.003 480h40.632a12 12 0 0011.813-9.891L151.826 384h98.634l-14.623 81.891C234.523 473.246 240.178 480 247.65 480h40.632a12 12 0 0011.813-9.891L315.472 384h79.096a12 12 0 0011.813-9.891l7.143-40c1.313-7.355-4.342-14.109-11.813-14.109h-74.81l22.857-128h79.096a12 12 0 0011.813-9.891zM261.889 320h-98.634l22.857-128h98.634l-22.857 128z"/></symbol></svg>
 </body>
 </html>
