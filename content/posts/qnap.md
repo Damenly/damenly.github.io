@@ -32,7 +32,7 @@ mmcblk0      179:0    0   3.7G  0 disk
 └─mmcblk0p2  179:2    0   3.4G  0 part /boot
 ```
 
-## 453Dmini sata控制器写入问题
+## 453Dmini sata控制器写入问题（可能）
 我比较懒，直接贴上我提的ticket的描述好了，至今为止官方未回复我:
 
 
@@ -56,4 +56,10 @@ I know you may ask me to use QTS to verify this but it requires me to reformat m
 
 
 ![](/qnap_disk_error.jpg)
+
+详细的dmesg下载
 [dmesg](/shared/dmesg)
+
+
+## 网卡问题
+默认没网卡。453dmini需要手动 modeprobe r8169
