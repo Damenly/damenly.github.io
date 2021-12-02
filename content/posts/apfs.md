@@ -38,7 +38,7 @@ infomation inside subvolume. It means we can create snapshots of a subvolume
 as much as we want. However, the trade cost is only one snapshot/subvolume per
 apfs_vol_superblock being mounted meantime.
 
-## APFS superblock and its csum
+## APFS superblock and checksum
 
 nx_superblock and vol_superblock:
 ```

@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width">
 		
 
-		<title>apfs</title>
+		<title>APFS</title>
 
 		
 		<link rel="stylesheet" href="https://damenly.github.io/css/colors-dark.min.a2daf801651e63cd091d4aabedb8cda227d020281c8035adf02dd0abd3ed08e1.css">
@@ -29,14 +29,14 @@
 			<div id="content">
 				
 	<article class="post">
-		<h1><a href="https://damenly.github.io/posts/apfs/">apfs</a> </h1>
-
+		<h1><a href="https://damenly.github.io/posts/apfs/">APFS</a> </h1>
 		<div class="post-content"><h1 id="apfs-notes">APFS NOTES</h1>
 <p>This blog just records something when I port apfs(Apple file system) to Linux.
 Please forgive my english ;)</p>
-<h2 id="apfs-maximum-subvolume-limit">APFS maximum subvolume limit</h2>
+<h2 id="apfs-maximum-subvolume-number-limit">APFS maximum subvolume number limit</h2>
 <p>A complete APFS consists of one container super block (nx_superblcok) and multi
-subvolumes. Each subvolume has its own superblock, fs tree, backref tree.
+subvolumes.
+Each subvolume has its own superblock, fs tree, backref tree.
 And Thanks to Apple&rsquo;s good design, the maximum subvolume numer of one APFS is
 100. It&rsquo;s defined in struct apfs_nx_superblock:</p>
 <pre tabindex="0"><code>#define APFS_MAX_FILE_SYSTEMS 100
@@ -54,8 +54,8 @@ Unlike btrfs which treats snapshots as subvolumes, apfs create snapshot related
 infomation inside subvolume. It means we can create snapshots of a subvolume
 as much as we want. However, the trade cost is only one snapshot/subvolume per
 apfs_vol_superblock being mounted meantime.</p>
-<h2 id="apfs-superblock-and-its-csum">APFS superblock and its csum</h2>
-<p>Superblocks structures are:</p>
+<h2 id="apfs-superblock-and-checksum">APFS superblock and checksum</h2>
+<p>nx_superblock and vol_superblock:</p>
 <pre tabindex="0"><code>#define APFS_SUPER_INFO_SIZE 4096
 
 struct apfs_nx_superblock {
@@ -135,16 +135,16 @@ static u64 apfs_fletcher64(const void *addr, size_t len)
 be (node_size - APFS_CSUMS_SIZE) or (APFS_SUPER_INFO_SIZE - APFS_CSUMS_SIZE).</p>
 <h2 id="apfs-cow">APFS COW</h2>
 <p>Unlike btrfs, nowdays xfs has data COW ability but no metadata COW.</p>
-
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe src="https://www.youtube.com/embed/wG8FUvSGROw" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
-</div>
-
 <p>After dumping APFS data structures, I realized APFS, like xfs does not do
 metadata COW but data COW only. There are data&rsquo;s extent backrefs in every
 subvolume but no metadata&rsquo;s.
 And one more thing shocked me: apfs does metadata checksum indeed but no checksum
 of data at all????!!!! Mabye it&rsquo;s Apple&rsquo;s dignity in protecting user data :)</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/wG8FUvSGROw" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
 <h2 id="credits">Credits:</h2>
 <ul>
 <li><a href="https://github.com/linux-apfs/linux-apfs-rw/">https://github.com/linux-apfs/linux-apfs-rw/</a></li>
@@ -152,7 +152,11 @@ of data at all????!!!! Mabye it&rsquo;s Apple&rsquo;s dignity in protecting user
 <li><a href="https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf">https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf</a></li>
 </ul>
 </div>
-
+		<div class="views">
+			<span class="views">
+				<img src="https://visitor-badge.glitch.me/badge?page_id=https%3a%2f%2fdamenly.github.io%2fposts%2fapfs%2f" alt="Views"/>
+			</span>
+		</div>
 		<p class="meta">Posted on <span class="postdate">22. June 2021</span></p>
 	</article>
 

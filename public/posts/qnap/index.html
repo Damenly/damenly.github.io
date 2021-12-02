@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		
+
+		<title>Qnap 453Dmini install archlinux 威联通 安装archlinux</title>
+
+		
+		<link rel="stylesheet" href="https://damenly.github.io/css/colors-dark.min.a2daf801651e63cd091d4aabedb8cda227d020281c8035adf02dd0abd3ed08e1.css">
+
+		
+	</head>
+	<body>
+		<header id="header">
+			<h1><a href="https://damenly.github.io/">D</a></h1>
+			<p></p>
+		</header>
+
+		<div id="page">
+			<div id="sidebar">
+				<nav>
+	
+</nav>
+
+			</div>
+
+			<div id="content">
+				
+	<article class="post">
+		<h1><a href="https://damenly.github.io/posts/qnap/">Qnap 453Dmini install archlinux 威联通 安装archlinux</a> </h1>
+		<div class="post-content"><p>Since 453Dmini is sold in only China. So I will write it in Chinese.</p>
+<p>之前手上的星际大陆矿机感觉太笨重了，正好双11，便入了威联通453Dmini, 因为我本来
+用的是archlinux，而又由于该型号是中国区特供，所以我担心是否 能够从U盘启动等问题。
+很多人会问为什么要装linux而不用自带的威联通系统，原因是因为：我喜欢你管得着？
+archlinux有最新的软件，不比封闭的方便？因此此文章提供给不满意封闭系统的人，谢谢。</p>
+<h2 id="启动问题">启动问题</h2>
+<p>到手之后发现默认进入的是qnap系统，此时注意不要插任何HDD/SSD,否则会抹掉磁盘
+上的数据！直接插上archlinux的U盘，然后开机时看到图标，按f2进入bios，修改
+第一启动项目为U盘。点Save and exit之后进入archlinux。</p>
+<p>mount 上qnap的mmcblk0一看，内核是基于4.14 ubuntu的：
+<img src="/qnap_boot.jpg" alt=""></p>
+<p>为了防止qnap的启动启动之后抹掉盘上的数据，我们需要抹掉mmblk0上的数据。
+注意首先用 dd if=/dev/mmcblk0 备份qnap的系统。</p>
+<p>这边列下我用只有3G的mmcblk0左为archlinux的boot和EFI分区，之后按照archlinux官方
+的书册安装就可以了。如果是已经有linux的系统，注意手动更新下rootfs里面的grub
+/etc/fstab。重启拔掉U盘，应该就可以从原来的磁盘启动了。</p>
+<pre tabindex="0"><code>mmcblk0      179:0    0   3.7G  0 disk
+├─mmcblk0p1  179:1    0   256M  0 part /boot/EFI
+└─mmcblk0p2  179:2    0   3.4G  0 part /boot
+</code></pre><h2 id="453dmini-sata控制器写入问题可能">453Dmini sata控制器写入问题（可能）</h2>
+<p>我比较懒，直接贴上我提的ticket的描述好了，至今为止官方未回复我:</p>
+<p>主题：ata2.00: exception Emask 0x10 SAct 0x7ff8000f SErr 0x400101 action 0x6 frozen</p>
+<p>Recently, I bought a 453Dmini to use as my nas. Instead of QTS, I manually install Archlinux on it but something looks weird.</p>
+<p>The first machine booted normally and I inserted and mounted two disks (btrfs raid 0, no smartctl error) into the nas.</p>
+<p>While calling umount, there are many ATA commands errors in dmesg. Then I found the link <a href="https://forum.qnap.com/viewtopic.php?t=133717">https://forum.qnap.com/viewtopic.php?t=133717</a>.</p>
+<p>I thought that it may be a hardware issue so I returned it and bought a new one which arrived today. And the issue happened again.</p>
+<p>I tried many combinations of my three disks (two btrfs raid0 disks and one 2.5-inch ssd containing Archlinux). Only When two raid0 disks are in</p>
+<p>slots 1 and 2, read, write and umount work well??? And since 453dmini is only supplied in the Chinese market, I can&rsquo;t find anymore on the Internet.</p>
+<p>My question: What&rsquo;s the cause of the issue? It&rsquo;s something like a hardware design or hardware issue?</p>
+<p>I know you may ask me to use QTS to verify this but it requires me to reformat my only existing two disks.</p>
+<p><img src="/qnap_disk_error.jpg" alt=""></p>
+<p>详细的dmesg下载
+<a href="/shared/dmesg">dmesg</a></p>
+<h2 id="网卡问题">网卡问题</h2>
+<p>默认没网卡。453dmini需要手动 modeprobe r8169</p>
+</div>
+		<div class="views">
+			<span class="views">
+				<img src="https://visitor-badge.glitch.me/badge?page_id=https%3a%2f%2fdamenly.github.io%2fposts%2fqnap%2f" alt="Views"/>
+			</span>
+		</div>
+		<p class="meta">Posted on <span class="postdate">02. December 2021</span></p>
+	</article>
+
+			</div>
+
+			<footer id="footer">
+				<p class="copyright">
+					
+						Powered by <a href="https://gohugo.io/">Hugo</a> and the
+						<a href="https://github.com/bake/solar-theme-hugo">Solar</a>-theme.
+					
+				</p>
+			</footer>
+		</div>
+
+		
+	</body>
+</html>
