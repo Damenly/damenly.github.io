@@ -28,6 +28,9 @@ jobs:
       - name: Create CNAME
         run: cp -f ./CNAME ./public
 
+      - name: Copy shared files
+        run: cp -fr ./shared ./public
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:

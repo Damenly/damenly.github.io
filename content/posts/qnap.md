@@ -56,3 +56,4 @@ I know you may ask me to use QTS to verify this but it requires me to reformat m
 
 
 ![](/qnap_disk_error.jpg)
+[dmesg](/shared/dmesg)
