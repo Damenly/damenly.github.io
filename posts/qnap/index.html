@@ -28,7 +28,7 @@ archlinux有最新的软件，不比封闭的方便？因此此文章提供给�
 上的数据！直接插上archlinux的U盘，然后开机时看到图标，按f2进入bios，修改
 第一启动项目为U盘。点Save and exit之后进入archlinux。</p>
 <p>mount 上qnap的mmcblk0一看，内核是基于4.14 ubuntu的：
-<img src=/qnap_boot.png alt></p>
+<img src=/qnap_boot.jpg alt></p>
 <p>为了防止qnap的启动启动之后抹掉盘上的数据，我们需要抹掉mmblk0上的数据。
 注意首先用 dd if=/dev/mmcblk0 备份qnap的系统。</p>
 <p>这边列下我用只有3G的mmcblk0左为archlinux的boot和EFI分区，之后按照archlinux官方
@@ -48,7 +48,7 @@ archlinux有最新的软件，不比封闭的方便？因此此文章提供给�
 <p>slots 1 and 2, read, write and umount work well??? And since 453dmini is only supplied in the Chinese market, I can&rsquo;t find anymore on the Internet.</p>
 <p>My question: What&rsquo;s the cause of the issue? It&rsquo;s something like a hardware design or hardware issue?</p>
 <p>I know you may ask me to use QTS to verify this but it requires me to reformat my only existing two disks.</p>
-<p><img src=/qnap_disk_error.png alt></p>
+<p><img src=/qnap_disk_error.jpg alt></p>
 </div>
 <p class=meta>Posted on <span class=postdate>02. December 2021</span></p>
 </article>
