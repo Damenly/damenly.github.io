@@ -42,7 +42,7 @@ Unlike btrfs which treats snapshots as subvolumes, apfs create snapshot related
 infomation inside subvolume. It means we can create snapshots of a subvolume
 as much as we want. However, the trade cost is only one snapshot/subvolume per
 apfs_vol_superblock being mounted meantime.</p>
-<h2 id=apfs-superblock-and-its-csum>APFS superblock and its csum</h2>
+<h2 id=apfs-superblock-and-checksum>APFS superblock and checksum</h2>
 <p>nx_superblock and vol_superblock:</p>
 <pre tabindex=0><code>#define APFS_SUPER_INFO_SIZE 4096
 
@@ -137,6 +137,11 @@ of data at all????!!!! Mabye it&rsquo;s Apple&rsquo;s dignity in protecting user
 <li><a href=https://github.com/sgan81/apfs-fuse/>https://github.com/sgan81/apfs-fuse/</a></li>
 <li><a href=https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf>https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf</a></li>
 </ul>
+</div>
+<div class=views>
+<span class=views>
+<img src="https://visitor-badge.glitch.me/badge?page_id=https%3a%2f%2fdamenly.github.io%2fposts%2fapfs%2f" alt=Views>
+</span>
 </div>
 <p class=meta>Posted on <span class=postdate>22. June 2021</span></p>
 </article>
