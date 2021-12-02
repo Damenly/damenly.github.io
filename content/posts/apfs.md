@@ -1,6 +1,6 @@
 
 ---
-title: "apfs"
+title: "APFS"
 date: 2021-06-22T19:04:24+08:00
 draft: False
 ---
@@ -11,10 +11,11 @@ This blog just records something when I port apfs(Apple file system) to Linux.
 Please forgive my english ;)
 
 
-## APFS maximum subvolume limit
+## APFS maximum subvolume number limit
 
 A complete APFS consists of one container super block (nx_superblcok) and multi
-subvolumes. Each subvolume has its own superblock, fs tree, backref tree.
+subvolumes.
+Each subvolume has its own superblock, fs tree, backref tree.
 And Thanks to Apple's good design, the maximum subvolume numer of one APFS is
 100. It's defined in struct apfs_nx_superblock:
 
@@ -39,7 +40,7 @@ apfs_vol_superblock being mounted meantime.
 
 ## APFS superblock and its csum
 
-Superblocks structures are:
+nx_superblock and vol_superblock:
 ```
 #define APFS_SUPER_INFO_SIZE 4096
 
@@ -133,13 +134,13 @@ be (node_size - APFS_CSUMS_SIZE) or (APFS_SUPER_INFO_SIZE - APFS_CSUMS_SIZE).
 
 Unlike btrfs, nowdays xfs has data COW ability but no metadata COW.
 
-{{< youtube wG8FUvSGROw >}}
-
 After dumping APFS data structures, I realized APFS, like xfs does not do
 metadata COW but data COW only. There are data's extent backrefs in every
 subvolume but no metadata's.
 And one more thing shocked me: apfs does metadata checksum indeed but no checksum
 of data at all????!!!! Mabye it's Apple's dignity in protecting user data :)
+
+{{< youtube wG8FUvSGROw >}}
 
 ## Credits:
 
