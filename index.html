@@ -45,7 +45,10 @@ One twitter account with developer approved One linux machine One weibo account 
 <h1><a href=https://damenly.github.io/posts/apfs/>APFS</a> </h1>
 <div class=post-content>
 <p>APFS NOTES This blog just records something when I port apfs(Apple file system) to Linux. Please forgive my english ;)
-APFS maximum subvolume number limit A complete APFS consists of one container super block (nx_superblcok) and multi subvolumes. Each subvolume has its own superblock, fs tree, backref tree. And Thanks to Apple&rsquo;s good design, the maximum subvolume numer of one APFS is 100. It&rsquo;s defined in struct apfs_nx_superblock:
+APFS maximum subvolume number limit A complete APFS consists of one container super block (nx_superblcok) and multi
+subvolumes. Each subvolume has its own superblock, fs tree, backref tree.
+And Thanks to Apple&rsquo;s good design, the maximum subvolume numer of one APFS is
+100. It&rsquo;s defined in struct apfs_nx_superblock:
 #define APFS_MAX_FILE_SYSTEMS 100 struct apfs_nx_superblock { . … </p>
 </div>
 <p class=meta>Posted on <span class=postdate>22. June 2021</span></p>
