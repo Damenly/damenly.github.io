@@ -131,6 +131,50 @@ of data at all????!!!! Mabye it&rsquo;s Apple&rsquo;s dignity in protecting user
 <div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
 <iframe src=https://www.youtube.com/embed/wG8FUvSGROw style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
 </div>
+<h2 id=xattr>Xattr</h2>
+<p>APFS stores compressed metadat in xattr items.
+The following inode &ldquo;Acknowledgments.html&rdquo; is located in &lsquo;/Applications/Safari.app/Contents/Resources/es.lproj/CaptionAutoFillCellView.strings&rsquo;.
+The inode now is compresssed and have acls &lsquo;A&rsquo; and &lsquo;bar&rsquo;. Xattr name &lsquo;A&rsquo; has value &lsquo;BBB&rsquo; and name &lsquo;foo&rsquo; has value &lsquo;bar&rsquo;.
+The names &lsquo;com.apple.ResourceFork&rsquo; and &lsquo;com.apple.decmpfs&rsquo; are describtion of the compressed extents.
+compress header in &lsquo;com.apple.decmpfs&rsquo; shows the inode extents was compressed by algorithm LZVN and data is in a resource fork.
+And com.apple.ResourceFork contains a xattr_dstream which descirbes size info and real extent location objectid &lsquo;objectid 27373&rsquo;.</p>
+<p>NOTE: LZVN is implemented in lzfse and APFS uses zlib compression algorithm too.</p>
+<pre tabindex=0><code>        item 7 key (3458764513820568300[27372 3] INODE 0) keyoff 666 keysize 8 itemoff 3664 itemsize 124
+                parent 26206 private 27372 nlink(nkids) 1 size 110546
+                mode REG[100644] uid 0 gid 0 bsd flags 0x80020(UF_COMPRESSED|SF_RESTRICTED)
+                flags 0x64000(HAS_RSRC_FORK|FAST_PROMOTE|HAS_UNCOMPRESSED_SIZE)
+                atime 1637032878540021363 (2021-11-16 11:21:18)
+                ctime 1638942408716033431 (2021-12-08 13:46:48)
+                mtime 1634527838000000000 (2021-10-18 11:30:38)
+                btime 1634527838000000000 (2021-10-18 11:30:38)
+                xfields count 1 used 24
+                        field type NAME flags DO_NOT_COPY size 21 offset 3764
+                ext_name Acknowledgments.html
+        item 8 key (4611686018427415276[27372 4] XATTR 2[hash 0 namelen 2] A) keyoff 2353 keysize 12 itemoff 2395 itemsize 8
+                flags 2(DATA_EMBEDDED) len 4
+                        BBBB
+        item 9 key (4611686018427415276[27372 4] XATTR 23[hash 0 namelen 23] com.apple.ResourceFork) keyoff 674 keysize 33 itemoff 3612 itemsize 52
+                flags 1(DATA_STREAM) len 48
+                        xattr_dstream objectid 27373 size 26439 allocated 28672 cryptoid 0 written 26439 read 0
+        item 10 key (4611686018427415276[27372 4] XATTR 18[hash 0 namelen 18] com.apple.decmpfs) keyoff 707 keysize 28 itemoff 3592 itemsize 20
+                flags 2(DATA_EMBEDDED) len 16
+                        compress header signature 1668116582 8(LZVN RSRC) 110546
+        item 11 key (4611686018427415276[27372 4] XATTR 4[hash 0 namelen 4] foo) keyoff 2339 keysize 14 itemoff 2403 itemsize 7
+                flags 2(DATA_EMBEDDED) len 3
+                        bar
+                                                                                                                                                                                                                                                                                                                                                        flags 2(DATA_EMBEDDED) len
+</code></pre><p>File extent &lsquo;objectid 27373&rsquo;:</p>
+<pre tabindex=0><code>        item 10 key (4611686018427415276[27372 4] XATTR 18[hash 0 namelen 18] com.apple.decmpfs) keyoff 707 keysize 28 itemoff 3592 itemsize 20
+                flags 2(DATA_EMBEDDED) len 16
+                        compress header signature 1668116582 8(LZVN RSRC) 110546
+        item 11 key (4611686018427415276[27372 4] XATTR 4[hash 0 namelen 4] foo) keyoff 2339 keysize 14 itemoff 2403 itemsize 7
+                flags 2(DATA_EMBEDDED) len 3
+                        bar
+        item 12 key (9223372036854803181[27373 8] FILE EXTENT 0) keyoff 735 keysize 16 itemoff 3568 itemsize 24
+                len 28672 flags 0 bytenr 13570891776 cryptoid 0
+        item 13 key (3458764513820568302[27374 3] INODE 0) keyoff 751 keysize 8 itemoff 3452 itemsize 116
+                parent 26206 private 27374 nlink(nkids) 33 size 0
+</code></pre><p>And the standlone file extent is without inode item aboved.</p>
 <h2 id=credits>Credits:</h2>
 <ul>
 <li><a href=https://github.com/linux-apfs/linux-apfs-rw/>https://github.com/linux-apfs/linux-apfs-rw/</a></li>
