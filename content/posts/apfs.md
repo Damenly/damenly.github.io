@@ -8,16 +8,16 @@ draft: False
 
 # APFS NOTES
 This blog just records something when I port apfs(Apple file system) to Linux.
-Please forgive my english ;)
+Please forgive my english ;)  
 
 
-## APFS maximum subvolume number limit
+## APFS maximum subvolume number limit 
 
-A complete APFS consists of one container super block (nx_superblcok) and multi
+A complete APFS consists of one container super block (nx_superblcok) and multi  
 subvolumes.
-Each subvolume has its own superblock, fs tree, backref tree.
-And Thanks to Apple's good design, the maximum subvolume numer of one APFS is
-100. It's defined in struct apfs_nx_superblock:
+Each subvolume has its own superblock, fs tree, backref tree.  
+And Thanks to Apple's good design, the maximum subvolume numer of one APFS is  
+100. It's defined in struct apfs_nx_superblock:  
 
 ```
 #define APFS_MAX_FILE_SYSTEMS 100
@@ -32,15 +32,15 @@ struct apfs_nx_superblock {
 };
 ```
 
-I have tried to create the 101th subvolume in macos, it failed as expected.
-Unlike btrfs which treats snapshots as subvolumes, apfs create snapshot related
-infomation inside subvolume. It means we can create snapshots of a subvolume 
-as much as we want. However, the trade cost is only one snapshot/subvolume per
-apfs_vol_superblock being mounted meantime.
+I have tried to create the 101th subvolume in macos, it failed as expected. 
+Unlike btrfs which treats snapshots as subvolumes, apfs create snapshot related  
+infomation inside subvolume. It means we can create snapshots of a subvolume  
+as much as we want. However, the trade cost is only one snapshot/subvolume per  
+apfs_vol_superblock being mounted meantime.  
 
 ## APFS superblock and checksum
 
-nx_superblock and vol_superblock:
+nx_superblock and vol_superblock:  
 ```
 #define APFS_SUPER_INFO_SIZE 4096
 
@@ -75,10 +75,10 @@ struct apfs_vol_superblock {
 };
 ```
 
-In APFS, every tree node, container and subvolume superblocks have their
-obj_header members. Btrfs has similar designs for tree nodes and file extents.
-Because apfs seems don't CoW its tree node, every object item has its csum field
-in obj header.
+In APFS, every tree node, container and subvolume superblocks have their  
+obj_header members. Btrfs has similar designs for tree nodes and file extents.  
+Because apfs seems don't CoW its tree node, every object item has its csum field  
+in obj header.  
 
 Object header structure:
 
@@ -126,30 +126,31 @@ static u64 apfs_fletcher64(const void *addr, size_t len)
         return (c2 << 32) | c1;
 }
 ```
-@addr in APFS should be address of @apfs_obj_header and len should 
+@addr in APFS should be address of @apfs_obj_header and len should  
 be (node_size - APFS_CSUMS_SIZE) or (APFS_SUPER_INFO_SIZE - APFS_CSUMS_SIZE).
 
 
 ## APFS COW
 
-Unlike btrfs, nowdays xfs has data COW ability but no metadata COW.
+Unlike btrfs, nowdays xfs has data COW ability but no metadata COW.  
 
-After dumping APFS data structures, I realized APFS, like xfs does not do
-metadata COW but data COW only. There are data's extent backrefs in every
+After dumping APFS data structures, I realized APFS, like xfs does not do 
+metadata COW but data COW only. There are data's extent backrefs in every  
 subvolume but no metadata's.
-And one more thing shocked me: apfs does metadata checksum indeed but no checksum
-of data at all????!!!! Mabye it's Apple's dignity in protecting user data :)
-
-{{< youtube wG8FUvSGROw >}}
+And one more thing shocked me: apfs does metadata checksum indeed but no checksum  
+of data at all????!!!! Mabye it's Apple's dignity in protecting user data :)  
 
 ## Xattr
 
-APFS stores compressed metadat in xattr items.
+APFS stores compressed metadat in xattr items.  
 The following inode "Acknowledgments.html" is located in '/Applications/Safari.app/Contents/Resources/es.lproj/CaptionAutoFillCellView.strings'.
-The inode now is compresssed and have acls 'A' and 'bar'. Xattr name 'A' has value 'BBB' and name 'foo' has value 'bar'.
-The names 'com.apple.ResourceFork' and 'com.apple.decmpfs' are describtion of the compressed extents.
-compress header in 'com.apple.decmpfs' shows the inode extents was compressed by algorithm LZVN and data is in a resource fork.
-And com.apple.ResourceFork contains a xattr_dstream which descirbes size info and real extent location objectid 'objectid 27373'.
+The inode now is compresssed and have acls 'A' and 'bar'.  
+Xattr name 'A' has value 'BBB' and name 'foo' has value 'bar'.
+The names 'com.apple.ResourceFork' and 'com.apple.decmpfs' are describtion of the compressed extents.  
+compress header in 'com.apple.decmpfs' shows the inode extents was compressed by   
+algorithm LZVN and data is in a resource fork.
+And com.apple.ResourceFork contains a xattr_dstream which descirbes  
+info and real extent location objectid 'objectid 27373'.
 
 NOTE: LZVN is implemented in lzfse and APFS uses zlib compression algorithm too.
 
