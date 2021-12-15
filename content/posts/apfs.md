@@ -197,6 +197,35 @@ File extent 'objectid 27373':
 
 And the standlone file extent is without inode item aboved.
 
+The transparent compression of APFS is a bit funny.  
+Regardless of the size of the file, all the compressed blocks are put inside a file extent.  
+Then, if you write even one byte to it, the whole file will be uncompressed due  
+to the data cow mechanism. And then the uncompressed blocks are still  
+put in the same super large file extent, not in a fixed size extent like normal files.
+
+The compressed file LLDB after modified on MacOS12 was uncompressed into 361430 file extent.
+The file exetent size is 237957120.
+
+```
+        item 3 key (3458764513820902358[361430 3] INODE 0) keyoff 384 keysize 8 itemoff 802 itemsize 152
+                parent 26078 private 361430 nlink(nkids) 1 size 0
+                mode REG[100755] uid 501 gid 80 bsd flags 0x0(none)
+                flags 0x8000(NO_RSRC_FORK)
+                atime 1639571524178369000 (2021-12-15 20:32:04)
+                ctime 1639571824951283382 (2021-12-15 20:37:04)
+                mtime 1639571824951283382 (2021-12-15 20:37:04)
+                btime 1639571524178369405 (2021-12-15 20:32:04)
+                xfields count 2 used 48
+                field type NAME flags DO_NOT_COPY size 5 offset 906
+                        ext_name LLDB
+                field type DSTREAM flags SYSTEM_FIELD size 40 offset 914
+                        ext_dstream size 237956576 allocated 237957120 cryptoid 0 written 713870752 read 496885760
+        item 4 key (6917529027641443286[361430 6] DSTREAM_ID 0) keyoff 453 keysize 8 itemoff 3520 itemsize 4
+                refcount 1
+        item 5 key (9223372036855137238[361430 8] FILE EXTENT 0) keyoff 461 keysize 16 itemoff 3496 itemsize 24
+                len 237957120 flags 0 bytenr 61676310528 cryptoid 0
+
+```
 ## Credits:
 
 * https://github.com/linux-apfs/linux-apfs-rw/
