@@ -175,6 +175,11 @@ info and real extent location objectid &lsquo;objectid 27373&rsquo;.</p>
         item 13 key (3458764513820568302[27374 3] INODE 0) keyoff 751 keysize 8 itemoff 3452 itemsize 116
                 parent 26206 private 27374 nlink(nkids) 33 size 0
 </code></pre><p>And the standlone file extent is without inode item aboved.</p>
+<p>The transparent compression of APFS is a bit funny.<br>
+Regardless of the size of the file, all the compressed blocks are put inside a file extent.<br>
+Then, if you write even one byte to it, the whole file will be uncompressed due<br>
+to the data cow mechanism. And then the uncompressed blocks are still<br>
+put in the same super large file extent, not in a fixed size extent like normal files.</p>
 <h2 id=credits>Credits:</h2>
 <ul>
 <li><a href=https://github.com/linux-apfs/linux-apfs-rw/>https://github.com/linux-apfs/linux-apfs-rw/</a></li>
